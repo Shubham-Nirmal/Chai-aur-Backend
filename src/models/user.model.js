@@ -70,12 +70,12 @@ const userSchema = new Schema({
 
 userSchema.pre("save",async function(){
     if(!this.isModified("password")) return next(); 
-    this.password =  bcrpyt.hash(this.password,10);
+    this.password = await bcrypt.hash(this.password,10);
     next();
 })
 
-userSchema.methods.ispassword = async function(password){
-  return await bcrpyt.compare(password,this.password)
+userSchema.methods.isPassword = async function(password){
+  return await bcrypt.compare(password,this.password)
 }
 
 userSchema.methods.generateAuthRefreshToken =  function(){
